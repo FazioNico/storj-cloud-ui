@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "storj-cloud-browser": "apps/storj-cloud-browser",
+    "storj-cloud-browser-e2e": "apps/storj-cloud-browser-e2e"
+  }
+}

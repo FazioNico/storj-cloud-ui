@@ -1,0 +1,94 @@
+{
+  "projectType": "application",
+  "root": "apps/storj-cloud-browser",
+  "sourceRoot": "apps/storj-cloud-browser/src",
+  "prefix": "storj-cloud-ui",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/storj-cloud-browser",
+        "index": "apps/storj-cloud-browser/src/index.html",
+        "main": "apps/storj-cloud-browser/src/main.ts",
+        "polyfills": "apps/storj-cloud-browser/src/polyfills.ts",
+        "tsConfig": "apps/storj-cloud-browser/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/storj-cloud-browser/src/favicon.ico",
+          "apps/storj-cloud-browser/src/assets"
+        ],
+        "styles": ["apps/storj-cloud-browser/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/storj-cloud-browser/src/environments/environment.ts",
+              "with": "apps/storj-cloud-browser/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "storj-cloud-browser:build:production"
+        },
+        "development": {
+          "browserTarget": "storj-cloud-browser:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "storj-cloud-browser:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/storj-cloud-browser/src/**/*.ts",
+          "apps/storj-cloud-browser/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/storj-cloud-browser"],
+      "options": {
+        "jestConfig": "apps/storj-cloud-browser/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

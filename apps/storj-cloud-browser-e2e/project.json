@@ -1,0 +1,28 @@
+{
+  "root": "apps/storj-cloud-browser-e2e",
+  "sourceRoot": "apps/storj-cloud-browser-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/storj-cloud-browser-e2e/cypress.json",
+        "devServerTarget": "storj-cloud-browser:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "storj-cloud-browser:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/storj-cloud-browser-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["storj-cloud-browser"]
+}
