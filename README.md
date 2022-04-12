@@ -3,12 +3,12 @@
 # Storj Cloud Ui
 > Storj Cloud Ui is a cross platform ui application that allows users to upload, download and manage files from the Storj network. It's a free and open source application.
 
-## Overview
+## 👀 Overview
 <img src="./docs/storj-cloud-preview-001.png" />
 
 <img src="./docs/storj-cloud-preview-002.png" />
 
-## Features
+## 🚀 Features
 - [x] Create storage buckets to the Storj network
 - [x] Create folders to the Storj network
 - [ ] Delete folders to the Storj network
@@ -20,12 +20,11 @@
 - [ ] Local data encryption
 - [ ] Dark mode support
 
-## Installation
+## ⚙️ Installation
 
-Select which version you want to install:
-  - MacOS: 
-  - Windows: 
-  - Linux: 
+To [download the latest version](https://github.com/FazioNico/storj-cloud-ui) of Storj Cloud Ui, go to release page and download the latest version from desired available platform (MacOS, Windows, Linux).
+
+You can also use the web browser version of Storj Cloud Ui by following the link below:
   - Web browsers:
   - Mobile (pwa): 
 
@@ -63,14 +62,15 @@ Optionnal parameters:
   - `-l`: generate Linux package
   - `-m`: generate MacOS package
   - `-w`: generate Windows package
+  - `--publish always`: publish the package to github
 
 > If no flags are specified, the default behavior is to generate a zip with for the current platform on which the command is executed
 
 ## 💻 Contributing
 
-Thanks for taking the time to help out and improve NgxWeb3! 🎉
+Thanks for taking the time to help out and improve Storj Cloud Ui! 🎉
 
-The following is a set of guidelines for NgxWeb3 contributions and may change over time. Feel free to suggest improvements to this document in a pull request!
+The following is a set of guidelines for Storj Cloud Ui contributions and may change over time. Feel free to suggest improvements to this document in a pull request!
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
 

@@ -10,10 +10,14 @@ mac:
   category: public.app-category.productivity
   type: distribution
   darkModeSupport: true
+  publish:
+    - github
 linux:
   icon: dist/apps/storj-cloud-desktop/assets/icons/logo.png
   category: Utility
   target: AppImage
+  publish:
+  - github
 win:
   icon: dist/apps/storj-cloud-desktop/assets/icons/logo.png
   

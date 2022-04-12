@@ -73,5 +73,6 @@
     "prettier": "^2.5.1",
     "ts-jest": "27.0.5",
     "typescript": "~4.6.2"
-  }
+  },
+  "repository": "https://github.com/FazioNico/storj-cloud-ui.git"
 }
