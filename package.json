@@ -11,7 +11,10 @@
     "test": "nx test",
     "serve:desktop": "electron ./dist/apps/storj-cloud-desktop/main.js",
     "build:desktop": "rm -rf ./dist/apps && nx build storj-cloud-browser build --base-href ./ &&  nx build storj-cloud-desktop",
-    "make:desktop": "electron-builder --config=electron-builder.yml"
+    "make:browser": "nx build storj-cloud-browser build --base-href ./",
+    "make:desktop": "electron-builder --config=electron-builder.yml",
+    "deploy:browser": "npx gh-pages -d dist/apps/storj-cloud-browser",
+    "deploy:desktop": "electron-builder --config=electron-builder.yml -- --publish always"
   },
   "private": true,
   "dependencies": {

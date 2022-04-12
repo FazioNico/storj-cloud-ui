@@ -24,8 +24,8 @@
 
 To [download the latest version](https://github.com/FazioNico/storj-cloud-ui/releases) of Storj Cloud Ui, go to release page and download the latest version from desired available platform (MacOS, Windows, Linux).
 
-You can also use the web browser version of Storj Cloud Ui by following the link below:
-  - Web browsers:
+You can also use the web browser version of Storj Cloud Ui by following the links below:
+  - Web browsers: [https://fazionico.github.io/storj-cloud-ui](https://fazionico.github.io/storj-cloud-ui)
   - Mobile (pwa): 
 
 ## Usage
