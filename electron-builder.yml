@@ -1,0 +1,19 @@
+appId: ui.cloud.storj
+productName: STORJ-Cloud-UI
+directories:
+  output: dist/packages
+  app: 'dist/apps/storj-cloud-desktop'
+files:
+  - "**/*"
+mac:
+  icon: dist/apps/storj-cloud-desktop/assets/icons/logo.png
+  category: public.app-category.productivity
+  type: distribution
+  darkModeSupport: true
+linux:
+  icon: dist/apps/storj-cloud-desktop/assets/icons/logo.png
+  category: Utility
+  target: AppImage
+win:
+  icon: dist/apps/storj-cloud-desktop/assets/icons/logo.png
+  

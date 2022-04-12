@@ -1,0 +1,26 @@
+<ion-list class="ion-no-padding">
+  <ion-item [hidden]="!isFolder" (click)="popCtrl.dismiss('open')">
+    <ion-icon name="folder-open-outline" slot="start"></ion-icon>
+    <ion-label>
+      Open
+    </ion-label>
+  </ion-item>
+  <ion-item [hidden]="isFolder" (click)="popCtrl.dismiss('share')">
+    <ion-icon name="link-outline" slot="start"></ion-icon>
+    <ion-label>
+      Public link
+    </ion-label>
+  </ion-item>
+  <ion-item [hidden]="isFolder" (click)="popCtrl.dismiss('download')">
+    <ion-icon name="download-outline" slot="start"></ion-icon>
+    <ion-label>
+      Download
+    </ion-label>
+  </ion-item>
+  <ion-item (click)="popCtrl.dismiss('delete')">
+    <ion-icon name="trash-outline" slot="start"></ion-icon>
+    <ion-label>
+      Delete
+    </ion-label>
+  </ion-item>
+</ion-list>

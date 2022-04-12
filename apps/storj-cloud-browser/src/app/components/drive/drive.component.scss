@@ -1,0 +1,144 @@
+:host {
+  .menu-logo {
+    max-width: 88px;
+    margin: 3rem auto 1rem;
+  }
+  .menu-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0rem auto 5rem;
+    text-align: center;
+    display: block;
+    position: relative;
+  }
+
+  ion-grid.full, ion-grid.full ion-row {
+    height: 100%;
+  }
+
+  ion-menu {
+    ion-item {
+      cursor: pointer;
+
+      &.active {
+        font-weight: 600;
+        background-color: rgba(var(--ion-color-primary-rgb), 0.05);
+      }
+      &:hover {
+        background-color: rgba(var(--ion-color-primary-rgb), 0.1);
+        color: var(--ion-color-primary);
+
+        ion-icon  {
+          color: var(--ion-color-primary);
+        }
+      }
+    }
+  }
+
+  .clickable {
+    cursor: pointer;
+  }
+
+  ion-toolbar {
+    --background: transparent;
+  }
+  ion-item.page-title {
+    --padding-start: 0;
+    --inner-padding-start: 0;
+
+    ion-menu-button {
+      margin-left: -1rem;
+      z-index: 1;
+    }
+
+    h1 {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  ion-breadcrumbs {
+    margin-left: -0.5rem;
+  }
+  
+  ion-card {
+    margin-bottom: 2.618rem;
+  }
+  ion-card, .header-grid {
+    margin-left: 2.618rem;
+    margin-right: 2.618rem;
+  }
+
+  ion-row.droppable-container {
+    background: #fff;
+
+    > ion-col {
+      margin: 1.618rem;
+      min-height: 200px;
+      border: dotted 3.14px #ccc;
+      background-color: rgba(var(--ion-color-primary-rgb), 0.05);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.125s ease-in-out;
+
+      &:hover {
+        background-color: rgba(var(--ion-color-primary-rgb), 0.1);
+      }
+      &.fileover {
+        background-color: rgba(var(--ion-color-primary-rgb), 0.15);
+
+        * {
+          opacity: 0.5;
+        }
+        ion-img {
+          transform: scale(0.9);
+        }
+      }
+      &.filedrop {
+        background-color: rgba(var(--ion-color-primary-rgb), 0.1);
+
+        * {
+          opacity: 0.2;
+        }
+        ion-img {
+          transform: scale(0.8);
+        }
+      }
+
+      ion-img {
+        max-width: 250px;
+        margin-top: 6.18rem;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1rem;
+        transition: all 0.125s ease-in-out;
+      }
+      span {
+        margin: 0 auto 6.18rem;
+        display: block;
+        font-size: 1.618rem;
+      }
+
+    }
+  }
+
+  ion-row.item {
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+
+
+    &:hover {
+      background-color: rgba(var(--ion-color-primary-rgb), 0.05);
+      > ion-col {
+        color: var(--ion-color-primary);
+      }
+    }
+
+    ion-fab-button {
+      --background: transparent;
+      --box-shadow: none;
+      --background-hover-opacity: 0.1;
+    }
+  }
+
+}

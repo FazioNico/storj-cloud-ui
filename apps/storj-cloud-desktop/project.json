@@ -1,0 +1,61 @@
+{
+  "projectType": "application",
+  "root": "apps/storj-cloud-desktop",
+  "sourceRoot": "apps/storj-cloud-desktop/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/storj-cloud-desktop",
+        "compiler": "babel",
+        "index": "apps/storj-cloud-desktop/src/index.html",
+        "baseHref": "/",
+        "main": "apps/storj-cloud-desktop/src/main.ts",
+        "tsConfig": "apps/storj-cloud-desktop/tsconfig.app.json",
+        "assets": [
+          "apps/storj-cloud-desktop/src/assets",
+          "apps/storj-cloud-desktop/src/package.json",
+          {
+            "glob": "**/*",
+            "input": "dist/apps/storj-cloud-browser",
+            "output": "/"
+          }
+        ],
+        "styles": [],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "storj-cloud-desktop:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "storj-cloud-desktop:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/storj-cloud-desktop/**/*.ts"]
+      }
+    }
+  }
+}

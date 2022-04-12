@@ -2,12 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>StorjCloudBrowser</title>
+    <title>Storj Cloud UI</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
   </head>
   <body>
-    <storj-cloud-ui-root></storj-cloud-ui-root>
+    <style>
+      body, html {
+        background-color: #f5f6fa;
+      }
+    </style>
+    <storj-cloud-ui-root>
+      <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    </storj-cloud-ui-root>
   </body>
 </html>

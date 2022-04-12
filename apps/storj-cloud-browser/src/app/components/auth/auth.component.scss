@@ -1,0 +1,32 @@
+:host {
+  ion-grid, ion-row {
+    height: 100%;
+  }
+  ion-card, ion-item, ion-list {
+    background: #fff;
+    --background: #fff;
+  }
+
+  h1 {
+    margin: 0rem auto 0rem;
+    font-size: 1.618rem;
+  }
+  span {
+    margin: 0.25rem auto;
+    font-size: 0.8rem;
+  }
+
+  ion-img {
+    max-width: 48px;
+    margin: 1.5rem auto 0rem;
+  }
+
+  a {
+    text-decoration: none;
+    opacity: 0.8;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

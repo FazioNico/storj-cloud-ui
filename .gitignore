@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/out
 
 # dependencies
 node_modules
@@ -39,3 +40,4 @@ testem.log
 Thumbs.db
 
 .angular
+.env

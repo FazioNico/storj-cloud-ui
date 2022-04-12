@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+
+ion-content {
+  --ion-background-color: #f5f6fa;
+}
+ion-menu {
+  --background: #fff;
+  ion-content {
+    --ion-background-color: transparent;
+  }
+}
+
+ion-card, .alert-wrapper {
+  border-radius:  0.618rem!important;
+}
+ion-button {
+  --border-radius: 2.618rem;
+}
+
+ion-backdrop {
+  background-color: rgba(var(--ion-color-primary-rgb), 0.3);
+}
+.danger {
+  ion-backdrop {
+    background-color: rgba(var(--ion-color-danger-rgb), 0.5);
+  }
+}
+
+.alert-button {
+  &.alert-button-role-cancel  {
+    color: var(--ion-color-danger);
+  }
+}
+
+ion-split-pane {
+  --side-max-width: 236px;
+}

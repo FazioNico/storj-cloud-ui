@@ -1,105 +1,79 @@
 
 
-# StorjCloudUi
+# Storj Cloud Ui
+> Storj Cloud Ui is a cross platform ui application that allows users to upload, download and manage files from the Storj network. It's a free and open source application.
 
-This project was generated using [Nx](https://nx.dev).
+## Overview
+<img src="./docs/storj-cloud-preview-001.png" />
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+<img src="./docs/storj-cloud-preview-002.png" />
 
-🔎 **Smart, Fast and Extensible Build System**
+## Features
+- [x] Create storage buckets to the Storj network
+- [x] Create folders to the Storj network
+- [ ] Delete folders to the Storj network
+- [x] Upload files to the Storj network from your computer
+- [x] Download files from the Storj network to your computer
+- [x] Delete files from the Storj network
+- [x] Create web url links to share files
+- [ ] Open file preview in app
+- [ ] Local data encryption
+- [ ] Dark mode support
 
-## Quick Start & Documentation
+## Installation
 
-[Nx Documentation](https://nx.dev/angular)
+Select which version you want to install:
+  - MacOS: 
+  - Windows: 
+  - Linux: 
+  - Web browsers:
+  - Mobile (pwa): 
 
-[10-minute video showing all Nx features](https://nx.dev/getting-started/intro)
+## Usage
 
-[Interactive Tutorial](https://nx.dev/tutorial/01-create-application)
+  - Download the latest version of Storj Cloud UI for your platform
+  - Create a free account at [storj.io](https://storj.io) if you don't have one
+  - Login to your [STOJ DCS account](https://eu1.storj.io/login)
+  - Generate Credentials to the STORJ Gateway MT [Quick guid](https://docs.storj.io/dcs/getting-started/quickstart-aws-sdk-and-hosted-gateway-mt/)
+  - Run the Storj Cloud UI application
+  - Connect to the Storj network using the generated credentials
+  - Create a bucket to the Storj network if you don't have one
+  - Congratulations! You're ready to start using Storj Cloud UI
 
-## Adding capabilities to your workspace
+## Development
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+  - Clone the Storj Cloud UI repository
+  - Install dependencies using NodeJS and NPM
+  - Install Nx Workspace CLI to manage workspace project
+  - Run develooppment server using `nx serve storj-cloud--browser` command will open the Storj Cloud UI application in the browser
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+## Build 
 
-Below are our core plugins:
+  - Run `nx build storj-cloud--browser` to build the Storj Cloud UI application for the browser
+  - Run `npm run build:desktop` to build the Storj Cloud UI Desktop application
 
-- [Angular](https://angular.io)
-  - `ng add @nrwl/angular`
-- [React](https://reactjs.org)
-  - `ng add @nrwl/react`
-- Web (no framework frontends)
-  - `ng add @nrwl/web`
-- [Nest](https://nestjs.com)
-  - `ng add @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `ng add @nrwl/express`
-- [Node](https://nodejs.org)
-  - `ng add @nrwl/node`
+## Packaging
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+  - Run `npm run make:desktop` to package the Storj Cloud UI Desktop application. This will create a zip file that contains the Storj Cloud UI Desktop application and all the required dependencies. You have to run `build:desktop` before running `make:desktop` to ensure that the application is built with the latest version of all dependencies.
+  
+You can use optional flags to customize the package. 
+For example, `npm run make:desktop -- -l -m -w` will create a zip file that contains the Storj Cloud UI Desktop application and all the required dependencies.
 
-## Generate an application
+Optionnal parameters:
+  - `-l`: generate Linux package
+  - `-m`: generate MacOS package
+  - `-w`: generate Windows package
 
-Run `ng g @nrwl/angular:app my-app` to generate an application.
+> If no flags are specified, the default behavior is to generate a zip with for the current platform on which the command is executed
 
-> You can use any of the plugins above to generate applications as well.
+## 💻 Contributing
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+Thanks for taking the time to help out and improve NgxWeb3! 🎉
 
-## Generate a library
+The following is a set of guidelines for NgxWeb3 contributions and may change over time. Feel free to suggest improvements to this document in a pull request!
 
-Run `ng g @nrwl/angular:lib my-lib` to generate a library.
+See [CONTRIBUTING.md](CONTRIBUTING.md)
 
-> You can also use any of the plugins above to generate libraries as well.
+## 📃 License
 
-Libraries are shareable across libraries and applications. They can be imported from `@storj-cloud-ui/mylib`.
-
-## Development server
-
-Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng g component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `ng build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
-
-
-
-
-
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+See [LICENSE](LICENSE)

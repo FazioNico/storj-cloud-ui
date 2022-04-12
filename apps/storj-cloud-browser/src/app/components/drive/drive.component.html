@@ -1,0 +1,142 @@
+<ion-split-pane content-id="main">
+  <!--  the side menu  -->
+  <ion-menu content-id="main">
+    <ion-content>
+      <ion-img class="menu-logo" src="./assets/icons/logo.svg"></ion-img>
+      <ion-text>
+        <span class="menu-title">STORJ Cloud UI</span>
+      </ion-text>
+      <ion-list lines="none">
+        <ng-container *ngIf="buckets$|async as buckets">
+          <ion-item [ngClass]="{'active': (b.Name|isCurrentBucket|async)}" *ngFor="let b of buckets" (click)="loadBucket(b.Name)">
+            <ion-icon name="server-outline" [color]="(b.Name|isCurrentBucket|async) ? 'primary' : ''" slot="start"></ion-icon>
+            <ion-label [color]="(b.Name|isCurrentBucket|async) ? 'primary' : ''">
+              {{b.Name}}
+            </ion-label>
+          </ion-item>
+        </ng-container>
+        <ion-item (click)="createBucket()">
+          <ion-icon name="add" slot="start"></ion-icon>
+          <ion-label>
+           crerate new bucket
+          </ion-label>
+        </ion-item>
+        <ion-item-divider ></ion-item-divider>
+        <ion-item lines="full" (click)="openSettings()">
+          <ion-icon name="settings-outline" slot="start"></ion-icon>
+          <ion-label>
+            settings
+          </ion-label>
+        </ion-item>
+        <ion-item lines="full" (click)="disconnect()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          <ion-label>
+            disconnect
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <!-- the main content -->
+  <ion-router-outlet id="main">
+    <ion-content class="ion-no-padding">
+      <ng-container *ngIf="bucketName$|async; else selectBucket">
+        <input #addFileElement type="file" id="file-input" hidden (change)="onFileChange($event)" />
+        <ion-grid class="ion-no-padding header-grid">
+          <ion-row class="ion-no-padding ion-padding-top">
+            <ion-col size="12" class="ion-padding-vertical">
+              <ion-item lines="none" class="page-title">
+                <ion-menu-button color="primary" slot="start"></ion-menu-button>
+                <ion-text color="primary">
+                  <h1>My Drive</h1> 
+                </ion-text>
+              </ion-item>
+            </ion-col>
+            <ion-col size-xs="12" size-md="6" class="ion-no-padding ion-text-left">
+              <ion-breadcrumbs 
+                  [maxItems]="maxBreadcrumbs" 
+                  (ionCollapsedClick)="maxBreadcrumbs = undefined">
+                <ion-breadcrumb [active]="true" (click)="navTo('root')">
+                  <ion-icon slot="start"name="folder-outline"></ion-icon>
+                  <span class="ion-padding-start">{{currentPath$|async}}</span>
+                </ion-breadcrumb>
+              </ion-breadcrumbs>
+            </ion-col>
+            <ion-col size-xs="12" size-md="6" class="ion-no-padding ion-text-right">
+              <ion-button fill="clear" (click)="reload()">
+                <ion-icon name="sync"></ion-icon>
+              </ion-button>
+              <ion-button (click)="addFileElement.click()">
+                upload
+              </ion-button>
+              <ion-button fill="outline" (click)="newFolder()">
+                new folder
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-card class="ion-no-padding">
+          <ion-grid class="ion-no-padding">
+            <ng-container *ngIf="currentPath$|async as currentPath" >
+              <ion-row 
+                  *ngIf="currentPath !== 'root'" 
+                  class="item ion-align-items-center ion-padding-start">
+                <ion-col size="auto" class="ion-padding-end">
+                  <ion-fab-button size="small" translucent="true" mode="ios" (click)="navBack()">
+                    <ion-icon name="ellipsis-horizontal" size="small" color="primary"></ion-icon>
+                  </ion-fab-button>
+                </ion-col>
+              </ion-row>
+            </ng-container>
+            <ion-row 
+                *ngFor="let item of items$|async; trackBy:trackByfn" 
+                (click)="item.isFolder ? navTo(item.name) : openItem(item)"
+                class="item clickable ion-align-items-center ion-padding-start">
+              <ion-col size="auto" class="ion-padding-start">
+                <ion-icon name="folder-outline" *ngIf="item.isFolder === true"></ion-icon>
+                <ion-icon name="document-outline" *ngIf="item.isFolder !== true"></ion-icon>
+                <ion-text class="ion-padding-start">
+                  {{item.name}}
+                </ion-text>
+                <!-- <pre>{{item|json}}</pre> -->
+              </ion-col>
+              <ion-col class="ion-text-right">
+                <ion-text *ngIf="item.isFolder !== true" color="medium">
+                  {{item.size}} octets
+                </ion-text>
+              </ion-col>
+              <ion-col size="auto">
+                  <ion-fab-button size="small" translucent="true" mode="ios" (click)="$event.stopPropagation();openOptions($event, item)">
+                    <ion-icon color="medium" size="small" name="ellipsis-vertical"></ion-icon>
+                  </ion-fab-button>
+              </ion-col>
+            </ion-row>
+            <ion-row (click)="addFileElement.click()"  class="droppable-container ion-align-items-center ion-padding">
+              <ion-col class="" dStoreDropable (fileDropped)="onFileChange($event)">
+                <ion-img src="./assets/icons/upload-file.svg"></ion-img>
+                <ion-text color="primary">
+                  <span>Drop Files Here to Upload</span>
+                </ion-text>
+              </ion-col>
+            </ion-row>
+          
+          </ion-grid>
+        </ion-card>
+      </ng-container>
+      <ng-template #selectBucket>
+        <ion-grid class="full">
+          <ion-row class="ion-align-items-center ion-justify-content-center">
+            <ion-col class="ion-text-center">
+              <h1>Create a bucket</h1>
+              <p>
+                Create a bucket to store your files
+              </p>
+              <ion-button size="large" (click)="createBucket()">new Bucket</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ng-template>
+    </ion-content>
+  </ion-router-outlet>
+</ion-split-pane>

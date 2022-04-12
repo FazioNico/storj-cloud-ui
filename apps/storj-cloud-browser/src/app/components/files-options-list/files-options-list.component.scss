@@ -1,0 +1,10 @@
+:host {
+
+  ion-item {
+    cursor: pointer;
+
+    &:hover {
+      --background: rgba(var(--ion-color-primary-rgb), 0.05);
+    }
+  }
+}

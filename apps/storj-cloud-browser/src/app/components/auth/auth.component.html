@@ -1,0 +1,54 @@
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-align-items-center ion-justify-content-center ion-padding">
+      <ion-col size-md="6" size-lg="4" class="ion-text-center">
+        <ion-card class="ion-margin-bottom">
+          <ion-img class="menu-logo" src="./assets/icons/logo.svg"></ion-img>
+          <ion-card-header>
+            <ion-card-title>
+              <ion-text color="primary">
+                <h1>STORJ Settings</h1>
+              </ion-text>
+              <ion-text color="medium">
+                <span>
+                  Enter your STORJ account credentials
+                </span>
+              </ion-text>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form [formGroup]="form" class="ion-padding-bottom">
+              <ion-list>
+                <!-- <ion-item>
+                  <ion-label position="floating">bucket name</ion-label>
+                  <ion-input formControlName="bucket" type="text" ></ion-input>
+                </ion-item> -->
+                <ion-item>
+                  <ion-label position="floating">access key ID</ion-label>
+                  <ion-input type="password" formControlName="accessKeyId"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating">secret access key</ion-label>
+                  <ion-input type="password" formControlName="secretAccessKey"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating">endpoint</ion-label>
+                  <ion-input type="text" formControlName="endpoint"></ion-input>
+                </ion-item>
+              </ion-list>
+            </form>
+            <a rel="noreferrer, noopener" href="https://docs.storj.io/dcs/getting-started/quickstart-aws-sdk-and-hosted-gateway-mt/" target="_blank">
+              <small>
+                How to find my STORJ credentials ?
+              </small>
+            </a>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-button size="large" (click)="login()">
+          Connect STORJ Bucket
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
