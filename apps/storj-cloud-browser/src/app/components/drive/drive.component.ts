@@ -4,10 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
 import { FilesOptionsListComponent } from '../files-options-list/files-options-list.component';
 import { MediaFileInterface } from '../../mediafile.interrface';
-import { DStorageService } from '../../services/storage.service';
+import { FilesStorageService } from '../../services/files-storage.service';
 import { AppAuthServiceInterface } from '../../services/auth.service';
 import { LoaderService } from '../../services/loader.service';
-
 
 @Component({
   selector: 'storj-cloud-ui-drive',
@@ -23,7 +22,7 @@ export class DriveComponent  implements OnInit {
   public maxBreadcrumbs: number|undefined = 4;
 
   constructor(
-    private readonly _storage: DStorageService,
+    private readonly _storage: FilesStorageService,
     private readonly _popCtrl: PopoverController,
     private readonly _toastCtrl: ToastController,
     private readonly _alertCtrl: AlertController,
@@ -100,18 +99,31 @@ export class DriveComponent  implements OnInit {
     return item._id;
   }
 
-  openItem(item: MediaFileInterface) {
-    if (item.url && !item.isFolder) {
-      window.open(item.url, '_blank');
+  async openItem(item: MediaFileInterface) {
+    // display loader
+    this._loader.setStatus(true);
+    const url = item.url 
+      ? item.url
+      : await this._storage.getUrl(item.name);
+    if (!url) {
+      throw 'No url found';
     }
+    // hide loader
+    this._loader.setStatus(false);
+    window.open(url, '_blank');
   }
 
   navTo(path: string) {
     this._storage.filterBy(path);
   }
 
-  navBack() {
-    this._storage.filterByParentFolder();
+  async navBack() {
+    // display loader
+    this._loader.setStatus(true);
+    // navigate back
+    await this._storage.filterByParentFolder();
+    // hide loader
+    this._loader.setStatus(false);
   }
 
   async openOptions($event: MouseEvent, item: MediaFileInterface) {
@@ -146,35 +158,47 @@ export class DriveComponent  implements OnInit {
         break;
       }
       case data === 'share': {
-        if (item.url) {
-          // copy url to clipboard
-          await navigator.clipboard.writeText(item.url);
-          // display confirm toast
-          const ionToast = await this._toastCtrl.create({
-            message: 'Public URL copied to clipboard',
-            duration: 2000,
-            position: 'bottom',
-            color: 'success',
-            buttons: ['ok']
-          });
-          await ionToast.present();
+        // display loader
+        this._loader.setStatus(true);
+        const url = item.url 
+          ? item.url
+          : await this._storage.getUrl(item.name);
+        if (!url) {
+          throw 'No url found';
         }
+        // copy url to clipboard
+        await navigator.clipboard.writeText(url);
+        // display confirm toast
+        const ionToast = await this._toastCtrl.create({
+          message: 'Public URL copied to clipboard',
+          duration: 2000,
+          position: 'bottom',
+          color: 'success',
+          buttons: ['ok']
+        });
+        await ionToast.present();
+        // hide loader
+        this._loader.setStatus(false);
         break;
       }
       case data === 'download': {
-        // download file from url
-        if (item.url) {
-          // display loader
-          this._loader.setStatus(true);
-          // TODO: Try to find why this opens in a new tab without download 
-          const link = document.createElement('a');
-          link.href = item.url;
-          link.target = '_blank';
-          link.download = item.name;
-          link.click();
-          // hide loader
-          this._loader.setStatus(false);
+        // display loader
+        this._loader.setStatus(true);
+        const url = item.url 
+          ? item.url
+          : await this._storage.getUrl(item.name);
+        if (!url) {
+          throw 'No url found';
         }
+        // download file from url
+        // TODO: Try to find why this opens in a new tab without download 
+        const link = document.createElement('a');
+        link.href = url;
+        link.target = '_blank';
+        link.download = item.name;
+        link.click();
+        // hide loader
+        this._loader.setStatus(false);
         break;
       }
       case data === 'open': {

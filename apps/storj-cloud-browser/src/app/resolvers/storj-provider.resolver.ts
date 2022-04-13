@@ -7,7 +7,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 import { AppAuthServiceInterface } from '../services/auth.service';
 import { LoaderService } from '../services/loader.service';
-import { DStorageService } from '../services/storage.service';
+import { FilesStorageService } from '../services/files-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class StorjProviderResolver implements Resolve<boolean> {
   
   constructor(
     @Inject('APP_AUTH_SERVICE') private readonly _auth: AppAuthServiceInterface,
-    private readonly _storage: DStorageService,
+    private readonly _storage: FilesStorageService,
     private readonly _looader: LoaderService
   ) {}
   

@@ -14,11 +14,18 @@ import {
 } from './services/auth.service';
 import { IsCurrentBucketPipe } from './pipes/is-current-bucket.pipe';
 import { GlobalErrorHandlerService } from './services/global-error-handler.service';
+import { S3Provider } from './services/s3-provider.service';
+import { environment } from '../environments/environment';
+import { DOCUMENT } from '@angular/common';
 
-const databaseFactory = (): DataStorageProviderInterface => {
+const databaseFactory = (d: Document): DataStorageProviderInterface => {
+  if (!d?.defaultView?.localStorage) {
+    throw new Error('localStorage is not defined');
+  }
+  const storage = d.defaultView.localStorage;
   return {
     getData: async (key: string) => {
-      const d = await localStorage.getItem(key);
+      const d = await storage.getItem(key);
       try {
         return d ? JSON.parse(d) : undefined;
       } catch (error) {
@@ -29,7 +36,7 @@ const databaseFactory = (): DataStorageProviderInterface => {
     saveData: async (key: string, data: any) => {
       try {
         const value = JSON.stringify(data);
-        await localStorage.setItem(key, value);
+        await storage.setItem(key, value);
         return true;
       } catch (error) {
         console.log('[ERROR] databaseFactory: ', error);
@@ -37,7 +44,7 @@ const databaseFactory = (): DataStorageProviderInterface => {
       }
     },
     removeData: async (key: string) => {
-      await localStorage.removeItem(key);
+      await storage.removeItem(key);
       return true;
     },
   };
@@ -62,19 +69,27 @@ const databaseFactory = (): DataStorageProviderInterface => {
     }),
   ],
   providers: [
-    {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandlerService,
-    },
+    ...(environment.production 
+      ? [{
+          provide: ErrorHandler,
+          useClass: GlobalErrorHandlerService,
+        }]
+      : []
+    ),
     {
       provide: 'DATA_STORAGE_PROVIDER',
-      useFactory: () => databaseFactory(),
+      useFactory: (d: Document) => databaseFactory(d),
+      deps: [DOCUMENT],
     },
     {
       provide: 'APP_AUTH_SERVICE',
       useClass: AuthService,
       deps: ['DATA_STORAGE_PROVIDER'],
     },
+    {
+      provide: 'STORJ_STORAGE_PROVIDER',
+      useClass: S3Provider,
+    }
   ],
   bootstrap: [AppComponent],
 })

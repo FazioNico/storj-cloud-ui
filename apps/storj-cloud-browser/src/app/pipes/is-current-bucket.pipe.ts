@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { DStorageService } from '../services/storage.service';
+import { FilesStorageService } from '../services/files-storage.service';
 
 @Pipe({
   name: 'isCurrentBucket'
@@ -8,7 +8,7 @@ import { DStorageService } from '../services/storage.service';
 export class IsCurrentBucketPipe implements PipeTransform {
 
   constructor(
-    private readonly _storage: DStorageService,
+    private readonly _storage: FilesStorageService,
   ) {}
   
   transform(value: string): Observable<boolean> {
