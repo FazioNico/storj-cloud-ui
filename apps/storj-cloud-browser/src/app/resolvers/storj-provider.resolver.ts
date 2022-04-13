@@ -7,7 +7,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 import { AppAuthServiceInterface } from '../services/auth.service';
 import { LoaderService } from '../services/loader.service';
-import { DStorageService } from '../storage.service';
+import { DStorageService } from '../services/storage.service';
 
 @Injectable({
   providedIn: 'root'

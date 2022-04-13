@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AlertController, PopoverController, ToastController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
 import { FilesOptionsListComponent } from '../files-options-list/files-options-list.component';
 import { MediaFileInterface } from '../../mediafile.interrface';
-import { DStorageService } from '../../storage.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { DStorageService } from '../../services/storage.service';
 import { AppAuthServiceInterface } from '../../services/auth.service';
 import { LoaderService } from '../../services/loader.service';
 

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { firstValueFrom, map, Observable, tap } from 'rxjs';
-import { DStorageService } from '../storage.service';
+import { map, Observable } from 'rxjs';
+import { DStorageService } from '../services/storage.service';
 
 @Pipe({
   name: 'isCurrentBucket'

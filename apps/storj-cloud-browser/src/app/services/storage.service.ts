@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@angular/core";
 import * as S3 from "aws-sdk/clients/s3";
 import { BehaviorSubject, combineLatest, filter, map, Observable } from "rxjs";
-import { MediaFileInterface } from "./mediafile.interrface";
+import { MediaFileInterface } from "../mediafile.interrface";
 import { v4 as uuidv4 } from 'uuid';
 
 export interface STORJProviderOptionsInterface {
