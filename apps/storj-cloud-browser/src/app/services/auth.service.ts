@@ -9,7 +9,7 @@ export interface AuthCredentials {
 }
 
 export interface DataStorageProviderInterface {
-  getData(key: string): Promise<AuthCredentials|undefined>;
+  getData<T>(key: string): Promise<T|undefined>;
   saveData<T>(key: string, data: T): Promise<boolean>;
   removeData(key: string): Promise<boolean>;
 }
@@ -30,7 +30,7 @@ export class AuthService implements AppAuthServiceInterface {
   public readonly credentials$ = this._credentials.asObservable();
 
   constructor(
-    @Inject('DATA_STORAGE_PROVIDER') private readonly _provider: DataStorageProviderInterface
+    @Inject('APP_DATA_STORAGE_SERVICE') private readonly _provider: DataStorageProviderInterface
   ) { }
 
   async setCredentials(credentials: AuthCredentials) {
@@ -42,7 +42,7 @@ export class AuthService implements AppAuthServiceInterface {
     if (this._credentials.value) {
       return Boolean(this._credentials.value);
     }
-    const credentials = await this._provider.getData(this._KEY_STORAGE);
+    const credentials = await this._provider.getData<AuthCredentials>(this._KEY_STORAGE);
     if (credentials) {
       this._credentials.next(credentials);
     }

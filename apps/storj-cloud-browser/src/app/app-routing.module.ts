@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Route } from "@angular/router";
-import { AuthComponent } from "./components/auth/auth.component";
-import { DriveComponent } from "./components/drive/drive.component";
+import { AuthComponent, DriveComponent } from "./components";
 import { IsAuthGuard } from "./guards/is-auth.guard";
 import { NoAuthGuard } from "./guards/no-auth.guard";
 import { StorjProviderResolver } from "./resolvers/storj-provider.resolver";

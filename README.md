@@ -17,7 +17,7 @@
 - [x] Delete files from the Storj network
 - [x] Create web url links to share files
 - [ ] Open file preview in app
-- [ ] Local data encryption
+- [x] Local data encryption
 - [ ] Dark mode support
 
 ## ⚙️ Installation
