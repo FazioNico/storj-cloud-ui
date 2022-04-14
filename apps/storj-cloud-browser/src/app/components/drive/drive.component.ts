@@ -216,31 +216,33 @@ export class DriveComponent  implements OnInit {
     }
     const ionAlert = await this._alertCtrl.create({
       header: 'STORJ settings',
+      message: `Define your preferred settings`,
       inputs: [
         {
           name: 'bucketName',
           type: 'text',
-          placeholder: 'Default bucket Name',
-          value: credentials.bucketName
+          placeholder: 'Name of the bucket',
+          value: credentials.bucketName,
+          label: 'Default bucket Name',
         },
-        {
-          name: 'accessKeyId',
-          type: 'password',
-          placeholder: 'Access Key Id',
-          value: credentials.accessKeyId
-        },
-        {
-          name: 'secretAccessKey',
-          type: 'password',
-          placeholder: 'Secret Access Key',
-          value: credentials.secretAccessKey
-        },
-        {
-          name: 'endpoint',
-          type: 'url',
-          placeholder: 'Endpoint',
-          value: credentials.endpoint
-        },
+        // {
+        //   name: 'accessKeyId',
+        //   type: 'password',
+        //   placeholder: 'Access Key Id',
+        //   value: credentials.accessKeyId
+        // },
+        // {
+        //   name: 'secretAccessKey',
+        //   type: 'password',
+        //   placeholder: 'Secret Access Key',
+        //   value: credentials.secretAccessKey
+        // },
+        // {
+        //   name: 'endpoint',
+        //   type: 'url',
+        //   placeholder: 'Endpoint',
+        //   value: credentials.endpoint
+        // },
         // {
         //   name: 'darkmode',
         //   type: 'checkbox',
@@ -268,11 +270,14 @@ export class DriveComponent  implements OnInit {
     }
     console.log(data.values);
     // set default bucket name if value have changed
-    // if (data.values.bucketName !== bucketName) {
-    //   this._storage.setDefaultBucketName(data.values.bucketName);
-    // }
-    // save data
-    await this._authService.setCredentials(data.values);
+    const currentDefaultBucketname = credentials?.bucketName||undefined
+    if (data.values.bucketName !== currentDefaultBucketname) {
+      // save data
+      await this._authService.setCredentials({
+        ...credentials,
+        ...data.values
+      });
+    }
     // this._storage.setConfig(data.values.bucketName);
     //  display toast
     const ionToast = await this._toastCtrl.create({
