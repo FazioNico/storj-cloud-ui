@@ -30,4 +30,5 @@ export class MediaFile implements MediaFileInterface {
     Object.assign(this, params);
     if (this.isFolder !== true) this.isFolder = false;
   }
+
 }

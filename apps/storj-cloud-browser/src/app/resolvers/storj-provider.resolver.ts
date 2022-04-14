@@ -4,11 +4,10 @@ import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot
 } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
-import { AppAuthServiceInterface } from '../services/auth.service';
-import { LoaderService } from '../services/loader.service';
-import { FilesStorageService } from '../services/files-storage.service';
+import { LoaderService, FilesStorageService } from '../services';
 import { APP_AUTH_SERVICE, APP_FILES_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
+import { AppAuthServiceInterface } from '@storj-cloud-ui/interfaces';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

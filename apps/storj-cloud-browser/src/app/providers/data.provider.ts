@@ -1,10 +1,10 @@
 import { DOCUMENT } from "@angular/common";
 import { Provider } from "@angular/core";
 import { APP_DATA_STORAGE_SERVICE } from "@storj-cloud-ui/injection-token";
+import { DataStorageProviderInterface } from "@storj-cloud-ui/interfaces";
 import { environment } from "../../environments/environment";
 import { DATA_STORAGE_PROVIDER, ENCRYPTED_DATA_STORAGE_PROVIDER, ENCRYPTION_KEY } from "../app.tokens";
 import { databaseEncryptionFactory, databaseFactory } from "../factories";
-import { DataStorageProviderInterface } from "../services/auth.service";
 
 export const DATABASE_PROVIDERS: Provider[] = [
   {

@@ -1,27 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { APP_DATA_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
-import { BehaviorSubject, Observable } from 'rxjs';
-
-export interface AuthCredentials {
-  bucketName?: string; // default bucket name
-  accessKeyId: string;
-  secretAccessKey: string;
-  endpoint: string;
-}
-
-export interface DataStorageProviderInterface {
-  getData<T>(key: string): Promise<T|undefined>;
-  saveData<T>(key: string, data: T): Promise<boolean>;
-  removeData(key: string): Promise<boolean>;
-}
-
-export interface AppAuthServiceInterface {
-  credentials$: Observable<AuthCredentials|undefined>;
-  setCredentials(credentials: AuthCredentials): Promise<void>;
-  checkAuth(): Promise<boolean>;
-  getCredentials(): Promise<AuthCredentials|undefined>;
-  signout(): Promise<void>
-}
+import { AppAuthServiceInterface, AuthCredentials, DataStorageProviderInterface } from '@storj-cloud-ui/interfaces';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class AuthService implements AppAuthServiceInterface {

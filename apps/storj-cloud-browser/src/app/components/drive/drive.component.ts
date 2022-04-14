@@ -1,13 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AlertController, PopoverController, ToastController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AppAuthServiceInterface, MediaFileInterface } from '@storj-cloud-ui/interfaces';
+import { APP_AUTH_SERVICE, APP_FILES_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
 import { firstValueFrom, Observable } from 'rxjs';
 import { FilesOptionsListComponent } from '../files-options-list/files-options-list.component';
-import { MediaFileInterface } from '../../mediafile.interrface';
-import { FilesStorageService } from '../../services/files-storage.service';
-import { AppAuthServiceInterface } from '../../services/auth.service';
-import { LoaderService } from '../../services/loader.service';
-import { APP_AUTH_SERVICE, APP_FILES_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
+import { FilesStorageService, LoaderService } from '../../services';
 
 @Component({
   selector: 'storj-cloud-ui-drive',

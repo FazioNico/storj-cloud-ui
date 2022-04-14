@@ -1,6 +1,10 @@
-import { STORJProviderOptionsInterface, STORJStorageProviderInterface } from "./files-storage.service";
+import { 
+  MediaFile, 
+  MediaFileInterface, 
+  STORJProviderOptionsInterface, 
+  STORJStorageProviderInterface 
+} from "@storj-cloud-ui/interfaces";
 import * as S3 from "aws-sdk/clients/s3";
-import { MediaFile, MediaFileInterface } from "../mediafile.interrface";
 import { Injectable } from "@angular/core";
 
 @Injectable()

@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "injection-token": "libs/injection-token",
+    "interfaces": "libs/interfaces",
     "storj-cloud-browser": "apps/storj-cloud-browser",
     "storj-cloud-browser-e2e": "apps/storj-cloud-browser-e2e",
     "storj-cloud-desktop": "apps/storj-cloud-desktop"

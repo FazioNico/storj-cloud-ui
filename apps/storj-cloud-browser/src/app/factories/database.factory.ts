@@ -1,4 +1,4 @@
-import { DataStorageProviderInterface } from '../services/auth.service';
+import { DataStorageProviderInterface } from "@storj-cloud-ui/interfaces";
 
 export const databaseFactory = (d: Document): DataStorageProviderInterface => {
   if (!d?.defaultView?.localStorage) {

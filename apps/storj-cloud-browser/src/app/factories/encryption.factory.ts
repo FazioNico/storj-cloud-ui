@@ -1,5 +1,5 @@
+import { DataStorageProviderInterface } from '@storj-cloud-ui/interfaces';
 import { AES as cryptoAES, enc } from 'crypto-js';
-import { DataStorageProviderInterface } from '../services/auth.service';
 
 export const databaseEncryptionFactory = (encryptionKey: string, d: DataStorageProviderInterface): DataStorageProviderInterface => {
 

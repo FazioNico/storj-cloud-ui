@@ -17,7 +17,8 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@storj-cloud-ui/injection-token": ["libs/injection-token/src/index.ts"]
+      "@storj-cloud-ui/injection-token": ["libs/injection-token/src/index.ts"],
+      "@storj-cloud-ui/interfaces": ["libs/interfaces/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
