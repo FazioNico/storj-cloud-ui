@@ -8,6 +8,7 @@ import { firstValueFrom } from 'rxjs';
 import { AppAuthServiceInterface } from '../services/auth.service';
 import { LoaderService } from '../services/loader.service';
 import { FilesStorageService } from '../services/files-storage.service';
+import { APP_AUTH_SERVICE, APP_FILES_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ import { FilesStorageService } from '../services/files-storage.service';
 export class StorjProviderResolver implements Resolve<boolean> {
   
   constructor(
-    @Inject('APP_AUTH_SERVICE') private readonly _auth: AppAuthServiceInterface,
-    private readonly _storage: FilesStorageService,
+    @Inject(APP_AUTH_SERVICE) private readonly _auth: AppAuthServiceInterface,
+    @Inject(APP_FILES_STORAGE_SERVICE) private readonly _storage: FilesStorageService,
     private readonly _looader: LoaderService
   ) {}
   

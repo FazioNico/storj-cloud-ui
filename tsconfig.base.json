@@ -16,7 +16,9 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@storj-cloud-ui/injection-token": ["libs/injection-token/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

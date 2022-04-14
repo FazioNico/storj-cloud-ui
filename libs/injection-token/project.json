@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/injection-token",
+  "sourceRoot": "libs/injection-token/src",
+  "prefix": "storj-cloud-ui",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/injection-token"],
+      "options": {
+        "jestConfig": "libs/injection-token/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/injection-token/src/**/*.ts",
+          "libs/injection-token/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

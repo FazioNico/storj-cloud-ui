@@ -7,6 +7,7 @@ import { MediaFileInterface } from '../../mediafile.interrface';
 import { FilesStorageService } from '../../services/files-storage.service';
 import { AppAuthServiceInterface } from '../../services/auth.service';
 import { LoaderService } from '../../services/loader.service';
+import { APP_AUTH_SERVICE, APP_FILES_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
 
 @Component({
   selector: 'storj-cloud-ui-drive',
@@ -22,14 +23,14 @@ export class DriveComponent  implements OnInit {
   public maxBreadcrumbs: number|undefined = 4;
 
   constructor(
-    private readonly _storage: FilesStorageService,
     private readonly _popCtrl: PopoverController,
     private readonly _toastCtrl: ToastController,
     private readonly _alertCtrl: AlertController,
     private readonly _route: ActivatedRoute,
     private readonly _router: Router,
     private readonly _loader: LoaderService,
-    @Inject('APP_AUTH_SERVICE') private readonly _authService: AppAuthServiceInterface,
+    @Inject(APP_AUTH_SERVICE) private readonly _authService: AppAuthServiceInterface,
+    @Inject(APP_FILES_STORAGE_SERVICE) private readonly _storage: FilesStorageService,
   ) {}
 
   async ngOnInit() {

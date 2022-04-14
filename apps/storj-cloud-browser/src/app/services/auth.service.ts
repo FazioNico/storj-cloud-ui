@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
+import { APP_DATA_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface AuthCredentials {
@@ -30,7 +31,7 @@ export class AuthService implements AppAuthServiceInterface {
   public readonly credentials$ = this._credentials.asObservable();
 
   constructor(
-    @Inject('APP_DATA_STORAGE_SERVICE') private readonly _provider: DataStorageProviderInterface
+    @Inject(APP_DATA_STORAGE_SERVICE) private readonly _provider: DataStorageProviderInterface
   ) { }
 
   async setCredentials(credentials: AuthCredentials) {

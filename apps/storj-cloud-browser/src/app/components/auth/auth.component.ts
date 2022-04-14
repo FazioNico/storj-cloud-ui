@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { APP_AUTH_SERVICE } from '@storj-cloud-ui/injection-token';
 import { AppAuthServiceInterface } from '../../services/auth.service';
 import { LoaderService } from '../../services/loader.service';
 
@@ -31,7 +32,7 @@ export class AuthComponent {
   });
 
   constructor(
-    @Inject('APP_AUTH_SERVICE') private readonly _service: AppAuthServiceInterface,
+    @Inject(APP_AUTH_SERVICE) private readonly _service: AppAuthServiceInterface,
     private readonly _router: Router,
     private readonly _loader: LoaderService
   ) { }

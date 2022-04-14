@@ -22,9 +22,7 @@ export interface STORJStorageProviderInterface {
   getPublicUrl: (bucket: string, key: string) => Promise<string>;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class FilesStorageService {
 
   private _buckets$: BehaviorSubject<{Name: string;}[]> = new BehaviorSubject(null as any);

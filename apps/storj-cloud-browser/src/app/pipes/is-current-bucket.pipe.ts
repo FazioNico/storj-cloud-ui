@@ -1,4 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Inject, Pipe, PipeTransform } from '@angular/core';
+import { APP_FILES_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
 import { map, Observable } from 'rxjs';
 import { FilesStorageService } from '../services/files-storage.service';
 
@@ -8,7 +9,7 @@ import { FilesStorageService } from '../services/files-storage.service';
 export class IsCurrentBucketPipe implements PipeTransform {
 
   constructor(
-    private readonly _storage: FilesStorageService,
+    @Inject(APP_FILES_STORAGE_SERVICE) private readonly _storage: FilesStorageService,
   ) {}
   
   transform(value: string): Observable<boolean> {
