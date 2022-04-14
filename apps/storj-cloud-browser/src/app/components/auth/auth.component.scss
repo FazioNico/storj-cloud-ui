@@ -3,8 +3,8 @@
     height: 100%;
   }
   ion-card, ion-item, ion-list {
-    background: #fff;
-    --background: #fff;
+    background: var(--background-app);
+    --background: var(--background-app);
   }
 
   h1 {

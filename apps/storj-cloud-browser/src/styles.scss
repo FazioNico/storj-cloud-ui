@@ -1,10 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
 ion-content {
-  --ion-background-color: #f5f6fa;
+  --ion-background-color: var(--ion-background-content);
 }
 ion-menu {
-  --background: #fff;
+  --background: var(--background-app);
   ion-content {
     --ion-background-color: transparent;
   }

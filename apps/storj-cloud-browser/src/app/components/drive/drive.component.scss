@@ -70,7 +70,7 @@
   }
 
   ion-row.droppable-container {
-    background: #fff;
+    background: var(--background-app);
 
     > ion-col {
       margin: 1.618rem;
@@ -123,8 +123,8 @@
   }
 
   ion-row.item {
-    background: #fff;
-    border-bottom: 1px solid #e0e0e0;
+    background: var(--background-app);
+    border-bottom: 1px solid var(--ion-border-color); // #e0e0e0;
 
 
     &:hover {
