@@ -6,7 +6,7 @@ import {
 import { BehaviorSubject, combineLatest, filter, map, Observable } from "rxjs";
 
 @Injectable()
-export class FilesStorageService {
+export class BucketExplorerService {
 
   private _buckets$: BehaviorSubject<{Name: string;}[]> = new BehaviorSubject(null as any);
   private _bucketName$: BehaviorSubject<string> = new BehaviorSubject(null as any);
@@ -24,6 +24,7 @@ export class FilesStorageService {
     ),
     this._filterBy$.asObservable()
   ]).pipe(
+    // map(([items, filterBy]) => items),
     map(([items, filterBy]) => items.filter(item => item.parent === filterBy))
   );
 
@@ -113,30 +114,15 @@ export class FilesStorageService {
 
   async uploads(files: File[]|FileList, opts?: any) {
     const currentPath = this._filterBy$.value;
+    console.log('[INFO] uploads', currentPath);
     const uploads = [];
     for (let i = 0; i < files.length; i++) {
       const element = files[i]; 
       const ext =  element.name.split('.').pop();
       let Key = element.name;
       if (currentPath !== 'root') {
-        // find parent folder from current path
-        let parent = this._items$.value.find(item => 
-          item.name === currentPath && item.isFolder
-        )?.name||'root';
-        // handle unexisting parent folder
-        if (!parent) {
-          throw new Error('Parent folder not found');
-        }
-        // loop until find root folder by using `parent` variable
-        while (parent !== 'root') {
-          Key = `${parent}/${Key}`;
-          // update parent value with item parent
-          parent = this._items$.value.find(item => 
-            item.name === parent && item.isFolder
-          )?.parent||'root';
-        }
+        Key = `${currentPath}/${Key}`;
       }
-      // console.log('key: ', Key);
       const task = this._provider.uploadFile(this._bucketName$.value, Key, element);
       // push upload task to uploads array
       uploads.push(task);
@@ -175,7 +161,7 @@ export class FilesStorageService {
       throw new Error('Parent folder not found');
     }
     // create new folder
-    const Key = (parent === 'root' ? name : `${parent}/${name}`) + '/.file_placeholder';
+    const Key = (parent === 'root' ? name : `${parent}/${name}`);
     // run upload task
     const result = await this._provider.createFolder(this._bucketName$.value, Key);
     // update items
