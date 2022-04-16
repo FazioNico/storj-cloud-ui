@@ -154,14 +154,16 @@ export class BucketExplorerService {
 
   async newFolder(name: string) {
     // find parent folder from current path
-    const currentPath = this._filterBy$.value;
-    const parent = this._items$.value.find(item =>  item.name === currentPath && item.isFolder)?.name||'root';
+    let currentPath = this._filterBy$.value;
+    // remove  `/.file_placeholder` to path
+    currentPath = currentPath.replace('/.file_placeholder', '');
     // handle unexisting parent folder
-    if (!parent) {
-      throw new Error('Parent folder not found');
+    if (!currentPath) {
+      throw new Error('CurrentPath not found');
     }
     // create new folder
-    const Key = (parent === 'root' ? name : `${parent}/${name}`);
+    let Key = (currentPath === 'root' ? name : `${currentPath}/${name}`);
+    Key = `${Key}/.file_placeholder`;
     // run upload task
     const result = await this._provider.createFolder(this._bucketName$.value, Key);
     // update items
