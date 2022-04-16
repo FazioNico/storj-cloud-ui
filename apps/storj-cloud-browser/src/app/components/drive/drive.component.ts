@@ -3,7 +3,7 @@ import { AlertController, PopoverController, ToastController } from '@ionic/angu
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppAuthServiceInterface, MediaFileInterface, BucketExplorerServiceInterface } from '@storj-cloud-ui/interfaces';
 import { APP_AUTH_SERVICE, APP_FILES_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { FilesOptionsListComponent } from '../files-options-list/files-options-list.component';
 import { LoaderService } from '../../services';
 
@@ -19,6 +19,24 @@ export class DriveComponent  implements OnInit {
   public readonly bucketName$: Observable<string> = this._storage.bucketName$;
   public readonly buckets$: Observable<{Name: string}[]> = this._storage.buckets$;
   public maxBreadcrumbs: number|undefined = 4;
+  public breadcrumbs$: Observable<string[]> = this._storage.currentPath$.pipe(
+    map(path => {
+      const parts = path.split('/');
+      const maxBreadcrumbs = this.maxBreadcrumbs||4;
+      if (parts.length > maxBreadcrumbs) {
+        parts.splice(0, parts.length - maxBreadcrumbs);
+      }
+      // if parts.length > 1 add `root` folder to first item position
+      if (parts.length > 1) {
+        parts.unshift('root');
+      }
+      // remove last item if it is `.file_placeholder``
+      if (parts[parts.length - 1] === '.file_placeholder') {
+        parts.pop();
+      }
+      return parts;
+    })
+  );
 
   constructor(
     private readonly _popCtrl: PopoverController,
@@ -110,6 +128,25 @@ export class DriveComponent  implements OnInit {
     // hide loader
     this._loader.setStatus(false);
     window.open(url, '_blank');
+  }
+
+  navToFolderName(breadcrumbs: string[], breadcrumb: string) {
+    const index = breadcrumbs.indexOf(breadcrumb);
+    if (index === -1) {
+      return;
+    }
+    if (breadcrumb === 'root') {
+      this.navTo('root');
+      return;
+    }
+    let path = breadcrumbs.slice(0, index + 1).join('/');
+    // remove 'root' folder from path
+    if (path.startsWith('root/')) {
+      path = path.replace('root/', '');
+    }
+    // add `.file_placeholder` to path
+    path += '/' + '.file_placeholder';
+    this.navTo(path);
   }
 
   navTo(path: string) {
