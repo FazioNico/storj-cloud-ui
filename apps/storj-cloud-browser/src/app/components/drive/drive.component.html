@@ -97,7 +97,7 @@
                 <ion-icon name="folder-outline" *ngIf="item.isFolder === true"></ion-icon>
                 <ion-icon name="document-outline" *ngIf="item.isFolder !== true"></ion-icon>
                 <ion-text class="ion-padding-start">
-                  {{item.name}}
+                  {{item.name|fileName}}
                 </ion-text>
                 <!-- <pre>{{item|json}}</pre> -->
               </ion-col>
