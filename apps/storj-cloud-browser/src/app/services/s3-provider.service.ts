@@ -33,7 +33,6 @@ export class S3Provider implements STORJStorageProviderInterface {
   async listBuckets() {
     // getBuckets from credentials
     const { Buckets } = await this._s3.listBuckets().promise();
-    console.log(Buckets);
     if (!Buckets || Buckets?.length === 0) {
       return [];
     }
@@ -50,16 +49,15 @@ export class S3Provider implements STORJStorageProviderInterface {
   
   async getFromBucket(Bucket: string, Prefix?: string) {
     const res = await this._s3
-      .listObjects({ Bucket, Prefix })
+      .listObjectsV2({ Bucket, Prefix })
       .promise();
     // extract content response   
     const items = res?.Contents
       // formating object data
-      ?.map((item:any)  => this._normalizeObject(item, Bucket))
+      ?.map((item)  => this._normalizeObject(item, Bucket))
       // find parent; detect folder; normalize name
-      ?.map((item: any) => this._findParentDetectFolder(item))||[]
-      ?.map((item: any) => new MediaFile(item))||[];
-    return items.map((item: any) => new MediaFile(item));
+      ?.map((item) => this._findParentDetectFolder(item))||[];
+    return items.map((item) => new MediaFile(item));
   }
 
   async createBucket(Bucket: string) {
@@ -75,12 +73,17 @@ export class S3Provider implements STORJStorageProviderInterface {
         Key,
         LastModified: new Date(res.LastModified||new Date()),
         Size: res.ContentLength,
+        StorageClass: res.StorageClass,
       }, Bucket))
     .then((res) => this._findParentDetectFolder(res));
     return new MediaFile(res);
   }
 
   async uploadFile(Bucket: string, Key: string, file: File) {
+    // clear file name
+    if (Key.includes('/.file_placeholder')) {
+      Key =  Key.replace('/.file_placeholder', '');
+    }
     // create object params
     const params = {
       Bucket,
@@ -128,41 +131,45 @@ export class S3Provider implements STORJStorageProviderInterface {
     });
   }
 
-  private _normalizeObject({ Key, LastModified, Size }: { Key?: string; LastModified?: Date; Size?: number; }, Bucket : string) {
+  private _normalizeObject({ Key, LastModified, Size, StorageClass }: { Key?: string; LastModified?: Date; Size?: number; StorageClass?: string|undefined; }, Bucket : string) {
     if (!Key) {
       throw new Error("Key is required");
     }
     const response = {
       name: Key,
-      // url: this._s3.getSignedUrl("getObject", {
-      //   Bucket, Key
-      // }),
       LastModified: new Date(LastModified||'').toLocaleString(),
       size: Size,
+      storageClass: StorageClass||undefined,
     }
     return response;
   }
 
   private _findParentDetectFolder(item: Partial<MediaFileInterface>): Partial<MediaFileInterface> {
-    const folder = item?.name?.split('/');
-    if (!item || !item.name||!folder) {
+    if (!item || !item.name) {
       throw new Error('Item not found');
     }
-    const [name, parent = 'root', ...gdParent] = item.name.split('/').reverse();
-    // item is stored inside a sub folder. Find parent folder
-    if (folder.length > 1) {
-      const isFolder = name === '.file_placeholder';
-      return {
-        ...item,
-        name: isFolder ? parent : name,
-        parent: isFolder ? gdParent?.[0] || 'root' : parent,
-        isFolder
-      }
-    } 
-    // item is stored in root folder
-    else {
-      return {...item, parent: 'root', isFolder: false};
+    const parent = this._getParentKey(item.name);
+    const isFolder = this._isFolder(item.name);
+    return {
+      ...item,
+      parent,
+      isFolder,
     }
+  }
+
+  private _isFolder(key: string){
+    return key.endsWith('/')||key.endsWith('/.file_placeholder');
+  }
+
+  private _getParentKey(key: string) {
+    if (key.endsWith('/.file_placeholder')) {
+      key =  key.replace('/.file_placeholder', '');
+    }
+    const folder = key.split('/');
+    if (folder.length > 1) {
+      return folder.slice(0, folder.length - 1).join('/') + '/.file_placeholder';
+    }
+    return 'root';
   }
 
 }

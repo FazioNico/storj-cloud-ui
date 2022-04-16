@@ -4,9 +4,9 @@ import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot
 } from '@angular/router';
-import { LoaderService, FilesStorageService } from '../services';
+import { LoaderService } from '../services';
 import { APP_AUTH_SERVICE, APP_FILES_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
-import { AppAuthServiceInterface } from '@storj-cloud-ui/interfaces';
+import { AppAuthServiceInterface, BucketExplorerServiceInterface } from '@storj-cloud-ui/interfaces';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class StorjProviderResolver implements Resolve<boolean> {
   
   constructor(
     @Inject(APP_AUTH_SERVICE) private readonly _auth: AppAuthServiceInterface,
-    @Inject(APP_FILES_STORAGE_SERVICE) private readonly _storage: FilesStorageService,
+    @Inject(APP_FILES_STORAGE_SERVICE) private readonly _storage: BucketExplorerServiceInterface,
     private readonly _looader: LoaderService
   ) {}
   

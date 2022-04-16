@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AlertController, PopoverController, ToastController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppAuthServiceInterface, MediaFileInterface } from '@storj-cloud-ui/interfaces';
+import { AppAuthServiceInterface, MediaFileInterface, BucketExplorerServiceInterface } from '@storj-cloud-ui/interfaces';
 import { APP_AUTH_SERVICE, APP_FILES_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
 import { firstValueFrom, Observable } from 'rxjs';
 import { FilesOptionsListComponent } from '../files-options-list/files-options-list.component';
-import { FilesStorageService, LoaderService } from '../../services';
+import { LoaderService } from '../../services';
 
 @Component({
   selector: 'storj-cloud-ui-drive',
@@ -28,7 +28,7 @@ export class DriveComponent  implements OnInit {
     private readonly _router: Router,
     private readonly _loader: LoaderService,
     @Inject(APP_AUTH_SERVICE) private readonly _authService: AppAuthServiceInterface,
-    @Inject(APP_FILES_STORAGE_SERVICE) private readonly _storage: FilesStorageService,
+    @Inject(APP_FILES_STORAGE_SERVICE) private readonly _storage: BucketExplorerServiceInterface,
   ) {}
 
   async ngOnInit() {
