@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AlertController, PopoverController, ToastController } from '@ionic/angular';
+import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, PopoverController, ToastController } from '@ionic/angular';
 import { AppAuthServiceInterface, MediaFileInterface, BucketExplorerServiceInterface } from '@storj-cloud-ui/interfaces';
 import { APP_AUTH_SERVICE, APP_FILES_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
 import { firstValueFrom, map, Observable } from 'rxjs';
@@ -37,6 +38,7 @@ export class DriveComponent  implements OnInit {
       return parts;
     })
   );
+  public darkMode!: boolean;
 
   constructor(
     private readonly _popCtrl: PopoverController,
@@ -47,11 +49,14 @@ export class DriveComponent  implements OnInit {
     private readonly _loader: LoaderService,
     @Inject(APP_AUTH_SERVICE) private readonly _authService: AppAuthServiceInterface,
     @Inject(APP_FILES_STORAGE_SERVICE) private readonly _storage: BucketExplorerServiceInterface,
-  ) {}
-
+    @Inject(DOCUMENT) private readonly _document: Document
+  ) {
+  }
+  
   async ngOnInit() {
     const bucketName = this._route.snapshot.data['bucketName'];
     console.log('init', bucketName);
+    this.darkMode = this._document.body.classList.contains('dark');
   }
 
   async onFileChange(event: any) {
@@ -258,7 +263,7 @@ export class DriveComponent  implements OnInit {
         {
           name: 'bucketName',
           type: 'text',
-          placeholder: 'Name of the bucket',
+          placeholder: 'Default bucket Name',
           value: credentials.bucketName,
           label: 'Default bucket Name',
         },
@@ -404,6 +409,11 @@ export class DriveComponent  implements OnInit {
       this._loader.setStatus(false);
       clearTimeout(t);
     },250);
+  }
+
+  async toggleDarkMode() {
+    this._document.defaultView?.localStorage.setItem('darkMode', this.darkMode ? 'true' : 'false');
+    this._document.body.classList.toggle('dark');
   }
 
 }

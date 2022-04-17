@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { IonicModule } from '@ionic/angular';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { DIRECTIVES } from './directives';
 import { COMPONENTS } from './components';
@@ -11,7 +11,8 @@ import {
   AUTH_PROVIDERS, 
   DATABASE_PROVIDERS, 
   ERROR_HANDLER_PROVIDERS, 
-  FILES_STORAGE_PROVIDERS 
+  FILES_STORAGE_PROVIDERS, 
+  INITIALIZER_PROVIDER
 } from './providers';
 
 
@@ -25,6 +26,7 @@ import {
   imports: [
     BrowserModule,
     ReactiveFormsModule,
+    FormsModule,
     AppRoutingModule,
     IonicModule.forRoot({
       mode: 'md',
@@ -32,6 +34,7 @@ import {
     }),
   ],
   providers: [
+    ...INITIALIZER_PROVIDER,
     ...ERROR_HANDLER_PROVIDERS,
     ...FILES_STORAGE_PROVIDERS,
     ...DATABASE_PROVIDERS,

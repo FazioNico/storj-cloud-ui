@@ -45,6 +45,7 @@
   ion-item.page-title {
     --padding-start: 0;
     --inner-padding-start: 0;
+    --background: transparent;
 
     ion-menu-button {
       margin-left: -1rem;
@@ -75,7 +76,7 @@
     > ion-col {
       margin: 1.618rem;
       min-height: 200px;
-      border: dotted 3.14px #ccc;
+      border: dotted 3.14px var(--ion-border-color);
       background-color: rgba(var(--ion-color-primary-rgb), 0.05);
       text-align: center;
       cursor: pointer;

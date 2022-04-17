@@ -6,7 +6,7 @@
       <ion-text>
         <span class="menu-title">STORJ Cloud UI</span>
       </ion-text>
-      <ion-list lines="none">
+      <ion-list lines="none"class="ion-no-padding">
         <ng-container *ngIf="buckets$|async as buckets">
           <ion-item [ngClass]="{'active': (b.Name|isCurrentBucket|async)}" *ngFor="let b of buckets" (click)="loadBucket(b.Name)">
             <ion-icon name="server-outline" [color]="(b.Name|isCurrentBucket|async) ? 'primary' : ''" slot="start"></ion-icon>
@@ -21,13 +21,30 @@
            crerate new bucket
           </ion-label>
         </ion-item>
-        <ion-item-divider ></ion-item-divider>
-        <ion-item lines="full" (click)="openSettings()">
-          <ion-icon name="settings-outline" slot="start"></ion-icon>
-          <ion-label>
-            settings
-          </ion-label>
-        </ion-item>
+        <ion-item-divider></ion-item-divider>
+        <ion-accordion-group>
+          <ion-accordion value="settings">
+            <ion-item slot="header" lines="full">
+              <ion-icon name="settings-outline" slot="start"></ion-icon>
+              <ion-label>settings</ion-label>
+            </ion-item>
+            <ion-list slot="content">
+              <ion-item lines="full" (click)="openSettings()">
+                <ion-icon name="server-outline" slot="start"></ion-icon>
+                <ion-label>
+                  buckets settings
+                </ion-label>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-icon name="moon-outline" slot="start"></ion-icon>
+                <ion-toggle slot="end" color="dark" [(ngModel)]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
+                <ion-label>
+                  dark mode
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-accordion>
+        </ion-accordion-group>
         <ion-item lines="full" (click)="disconnect()">
           <ion-icon name="log-out-outline" slot="start"></ion-icon>
           <ion-label>
