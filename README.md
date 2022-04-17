@@ -18,7 +18,7 @@
 - [x] Create web url links to share files
 - [ ] Open file preview in app
 - [x] Local data encryption
-- [ ] Dark mode support
+- [x] Dark mode support
 
 ## ⚙️ Installation
 
