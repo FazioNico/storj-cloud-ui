@@ -59,7 +59,7 @@
   <ion-router-outlet id="main">
     <ion-content class="ion-no-padding">
       <ng-container *ngIf="bucketName$|async; else selectBucket">
-        <input #addFileElement type="file" id="file-input" hidden (change)="onFileChange($event)" />
+        <input #addFileElement type="file" id="file-input" multiple="true" hidden (change)="onFileChange($event)" />
         <ion-grid class="ion-no-padding header-grid">
           <ion-row class="ion-no-padding ion-padding-top">
             <ion-col size="12" class="ion-padding-vertical">
