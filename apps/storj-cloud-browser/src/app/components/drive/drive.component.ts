@@ -463,7 +463,8 @@ export class DriveComponent  implements OnInit {
       component: PreviewComponent,
       componentProps: {
         file: new MediaFile({...item, url})
-      }
+      },
+      cssClass: 'preview-modal'
     });
     await ionModal.present();
     const { data, role } = await ionModal.onDidDismiss();

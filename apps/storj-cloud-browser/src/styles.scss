@@ -35,3 +35,15 @@ ion-backdrop {
 ion-split-pane {
   --side-max-width: 236px;
 }
+
+ion-popover, .preview-modal {
+
+  &::part(content) {
+    border-radius:  0.618rem!important;
+    border: solid 1px var(--ion-border-color);
+  }
+  &::part(backdrop) {
+    background-color: rgba(var(--ion-color-primary-rgb), 0.3);
+  }
+  
+}
