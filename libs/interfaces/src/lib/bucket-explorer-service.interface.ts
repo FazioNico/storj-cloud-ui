@@ -18,5 +18,6 @@ export interface BucketExplorerServiceInterface {
   uploads<T>(files: File[] | FileList, opts?: T): Promise<MediaFileInterface[]>;
   newFolder(name: string): Promise<void>;
   delete(key: string, bucket?: string | undefined): Promise<void>;
+  deleteFolder(key: string): Promise<void>;
   getUrl(key: string, bucket?: string | undefined): Promise<string>;
 }
