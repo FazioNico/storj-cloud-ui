@@ -108,7 +108,7 @@
             </ng-container>
             <ion-row 
                 *ngFor="let item of items$|async; trackBy:trackByfn" 
-                (click)="item.isFolder ? navTo(item.name) : openItem(item)"
+                (click)="item.isFolder ? actions('navTo', item) : actions('preview', item)"
                 class="item clickable ion-align-items-center ion-padding-start">
               <ion-col size="auto" class="ion-padding-start">
                 <ion-icon name="folder-outline" *ngIf="item.isFolder === true"></ion-icon>

@@ -1,12 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, PopoverController, ToastController } from '@ionic/angular';
-import { AppAuthServiceInterface, MediaFileInterface, BucketExplorerServiceInterface } from '@storj-cloud-ui/interfaces';
+import { AlertController, ModalController, PopoverController, ToastController } from '@ionic/angular';
+import { AppAuthServiceInterface, MediaFileInterface, BucketExplorerServiceInterface, MediaFile } from '@storj-cloud-ui/interfaces';
 import { APP_AUTH_SERVICE, APP_FILES_STORAGE_SERVICE } from '@storj-cloud-ui/injection-token';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { FilesOptionsListComponent } from '../files-options-list/files-options-list.component';
 import { LoaderService } from '../../services';
+import { PreviewComponent } from '../preview/preview.component';
 
 @Component({
   selector: 'storj-cloud-ui-drive',
@@ -44,6 +45,7 @@ export class DriveComponent  implements OnInit {
     private readonly _popCtrl: PopoverController,
     private readonly _toastCtrl: ToastController,
     private readonly _alertCtrl: AlertController,
+    private readonly _modalCtrl: ModalController,
     private readonly _route: ActivatedRoute,
     private readonly _router: Router,
     private readonly _loader: LoaderService,
@@ -57,6 +59,121 @@ export class DriveComponent  implements OnInit {
     const bucketName = this._route.snapshot.data['bucketName'];
     console.log('init', bucketName);
     this.darkMode = this._document.body.classList.contains('dark');
+  }
+
+  async actions(type: string, payload?: any){
+    switch (true) {
+      case type === 'delete': {
+        if (!payload) {
+          return;
+        }
+        const item = payload as MediaFileInterface;
+        // display loader
+        this._loader.setStatus(true);
+        // display confirm
+        const ionAlert = await this._alertCtrl.create({
+          header: 'Delete',
+          message: `Are you sure you want to delete ${item.name}?`,
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+            },
+            {
+              text: 'Delete',
+              role: 'ok',
+            }
+          ]
+        });
+        await ionAlert.present();
+        const { role } = await ionAlert.onDidDismiss();
+        if (role !== 'ok') {
+          // hide loader
+          this._loader.setStatus(false);
+          return;
+        }
+        if (item.isFolder) {
+          await this._storage.deleteFolder(item.name);
+        } else {
+          await this._storage.delete(item.name);
+        }
+        //  display toast
+        const ionToast = await this._toastCtrl.create({
+          message: `🎉 Delete successfully`,
+          duration: 2000,
+          position: 'bottom',
+          color: 'success',
+          buttons: ['ok']
+        });
+        await ionToast.present();
+        // hide loader
+        this._loader.setStatus(false);
+        break;
+      }
+      case type === 'share': {
+        const item = payload as MediaFileInterface;
+        // display loader
+        this._loader.setStatus(true);
+        const url = item.url 
+          ? item.url
+          : await this._storage.getUrl(item.name);
+        if (!url) {
+          throw 'No url found';
+        }
+        // copy url to clipboard
+        await navigator.clipboard.writeText(url);
+        // display confirm toast
+        const ionToast = await this._toastCtrl.create({
+          message: 'Public URL copied to clipboard',
+          duration: 2000,
+          position: 'bottom',
+          color: 'success',
+          buttons: ['ok']
+        });
+        await ionToast.present();
+        // hide loader
+        this._loader.setStatus(false);
+        break;
+      }
+      case type === 'download': {
+        const item = payload as MediaFileInterface;
+        // display loader
+        this._loader.setStatus(true);
+        const url = item.url 
+          ? item.url
+          : await this._storage.getUrl(item.name);
+        if (!url) {
+          throw 'No url found';
+        }
+        // download file from url
+        // TODO: Try to find why this opens in a new tab without download 
+        const link = document.createElement('a');
+        link.href = url;
+        link.target = '_blank';
+        link.download = item.name;
+        link.click();
+        link.remove();
+        // hide loader
+        this._loader.setStatus(false);
+        break;
+      }
+      case type === 'navTo': {
+        const item = payload as MediaFileInterface;
+        this.navTo(item.name);
+        break;
+      }
+      case type === 'preview': {
+        const item = payload as MediaFileInterface;
+        const { data, role} = await this.preview(item);
+        if (role === 'cancel') {
+          return;
+        }
+        this.actions(data, item);
+        break;
+      }
+      default:
+        break;
+    } 
   }
 
   async onFileChange(event: any) {
@@ -121,20 +238,6 @@ export class DriveComponent  implements OnInit {
     return item._id;
   }
 
-  async openItem(item: MediaFileInterface) {
-    // display loader
-    this._loader.setStatus(true);
-    const url = item.url 
-      ? item.url
-      : await this._storage.getUrl(item.name);
-    if (!url) {
-      throw 'No url found';
-    }
-    // hide loader
-    this._loader.setStatus(false);
-    window.open(url, '_blank');
-  }
-
   navToFolderName(breadcrumbs: string[], breadcrumb: string) {
     const index = breadcrumbs.indexOf(breadcrumb);
     if (index === -1) {
@@ -180,101 +283,7 @@ export class DriveComponent  implements OnInit {
     if (role === 'close') {
       return;
     }
-    switch (true) {
-      case data === 'delete': {
-        // display loader
-        this._loader.setStatus(true);
-        // display confirm
-        const ionAlert = await this._alertCtrl.create({
-          header: 'Delete',
-          message: `Are you sure you want to delete ${item.name}?`,
-          buttons: [
-            {
-              text: 'Cancel',
-              role: 'cancel',
-            },
-            {
-              text: 'Delete',
-              role: 'ok',
-            }
-          ]
-        });
-        await ionAlert.present();
-        const { role } = await ionAlert.onDidDismiss();
-        if (role !== 'ok') {
-          // hide loader
-          this._loader.setStatus(false);
-          return;
-        }
-        if (item.isFolder) {
-          await this._storage.deleteFolder(item.name);
-        } else {
-          await this._storage.delete(item.name);
-        }
-        //  display toast
-        const ionToast = await this._toastCtrl.create({
-          message: `🎉 Delete successfully`,
-          duration: 2000,
-          position: 'bottom',
-          color: 'success',
-          buttons: ['ok']
-        });
-        await ionToast.present();
-        // hide loader
-        this._loader.setStatus(false);
-        break;
-      }
-      case data === 'share': {
-        // display loader
-        this._loader.setStatus(true);
-        const url = item.url 
-          ? item.url
-          : await this._storage.getUrl(item.name);
-        if (!url) {
-          throw 'No url found';
-        }
-        // copy url to clipboard
-        await navigator.clipboard.writeText(url);
-        // display confirm toast
-        const ionToast = await this._toastCtrl.create({
-          message: 'Public URL copied to clipboard',
-          duration: 2000,
-          position: 'bottom',
-          color: 'success',
-          buttons: ['ok']
-        });
-        await ionToast.present();
-        // hide loader
-        this._loader.setStatus(false);
-        break;
-      }
-      case data === 'download': {
-        // display loader
-        this._loader.setStatus(true);
-        const url = item.url 
-          ? item.url
-          : await this._storage.getUrl(item.name);
-        if (!url) {
-          throw 'No url found';
-        }
-        // download file from url
-        // TODO: Try to find why this opens in a new tab without download 
-        const link = document.createElement('a');
-        link.href = url;
-        link.target = '_blank';
-        link.download = item.name;
-        link.click();
-        // hide loader
-        this._loader.setStatus(false);
-        break;
-      }
-      case data === 'open': {
-        this.navTo(item.name);
-        break;
-      }
-      default:
-        break;
-    } 
+    await this.actions(data, item);
   }
 
   async openSettings() {
@@ -440,6 +449,25 @@ export class DriveComponent  implements OnInit {
   async toggleDarkMode() {
     this._document.defaultView?.localStorage.setItem('darkMode', this.darkMode ? 'true' : 'false');
     this._document.body.classList.toggle('dark');
+  }
+
+  async preview(item: MediaFileInterface) {
+    const url = item.url 
+      ? item.url
+      : await this._storage.getUrl(item.name);
+    if (!url) {
+      throw 'No url found';
+    }
+    // open modal
+    const ionModal = await this._modalCtrl.create({
+      component: PreviewComponent,
+      componentProps: {
+        file: new MediaFile({...item, url})
+      }
+    });
+    await ionModal.present();
+    const { data, role } = await ionModal.onDidDismiss();
+    return { data, role };
   }
 
 }
