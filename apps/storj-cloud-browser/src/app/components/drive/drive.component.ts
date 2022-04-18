@@ -188,6 +188,16 @@ export class DriveComponent  implements OnInit {
         const ionAlert = await this._alertCtrl.create({
           header: 'Delete',
           message: `Are you sure you want to delete ${item.name}?`,
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+            },
+            {
+              text: 'Delete',
+              role: 'ok',
+            }
+          ]
         });
         await ionAlert.present();
         const { role } = await ionAlert.onDidDismiss();
