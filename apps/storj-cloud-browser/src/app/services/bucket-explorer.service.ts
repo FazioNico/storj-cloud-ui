@@ -2,11 +2,13 @@ import { Inject, Injectable } from "@angular/core";
 import { 
   MediaFileInterface, 
   STORJProviderOptionsInterface, 
-  STORJStorageProviderInterface } from "@storj-cloud-ui/interfaces";
+  STORJStorageProviderInterface,
+  BucketExplorerServiceInterface
+ } from "@storj-cloud-ui/interfaces";
 import { BehaviorSubject, combineLatest, filter, map, Observable } from "rxjs";
 
 @Injectable()
-export class BucketExplorerService {
+export class BucketExplorerService implements BucketExplorerServiceInterface {
 
   private _buckets$: BehaviorSubject<{Name: string;}[]> = new BehaviorSubject(null as any);
   private _bucketName$: BehaviorSubject<string> = new BehaviorSubject(null as any);
@@ -194,6 +196,34 @@ export class BucketExplorerService {
     const folders = items.filter(item => item?.isFolder);
     const files = items.filter(item => !item?.isFolder);
     // return sorted datas
+    const data = [
+      // sort folders first
+      ...folders.sort((a, b) => a.name.localeCompare(b.name)),
+      ...files.sort((a, b) => a.name.localeCompare(b.name)),
+    ];
+    this._items$.next(data);
+  }
+
+  async deleteFolder(Key: string, Bucket?: string): Promise<void> {
+    if (!Bucket) {
+      Bucket = this._bucketName$.value;
+    }
+    // get all files in folder
+    const filesToDelete = this._items$.value.filter(item => item.parent === Key);
+    // console.log('[INFO] deleteFolder', filesToDelete, Key);
+    // return;
+    // delete all files in folder
+    await Promise.all(filesToDelete.map(file => this.delete(file.name, Bucket)));
+    // delete folder
+    await this.delete(Key, Bucket);
+    // update items without deleted folder and files
+    const items = this._items$.value
+      .filter(item => item.name !== Key)
+      .filter(item => item.parent !== Key);
+    // extract files & folders
+    const folders = items.filter(item => item?.isFolder);
+    const files = items.filter(item => !item?.isFolder);
+    // update wiith sorted datas
     const data = [
       // sort folders first
       ...folders.sort((a, b) => a.name.localeCompare(b.name)),
