@@ -9,14 +9,14 @@
 <img src="./docs/storj-cloud-preview-002.png" />
 
 ## 🚀 Features
-- [x] Create storage buckets to the Storj network
-- [x] Create folders
-- [x] Delete folders
+- [x] Create storage bucket to the Storj network
+- [x] Create folder
+- [x] Delete folder
 - [x] Upload files to the Storj network from your computer
-- [x] Download files from the Storj network to your computer
+- [x] Download file
 - [x] Delete files from the Storj network
-- [x] Create web url links to share files
-- [ ] Open file preview in app
+- [x] Share file with public url link
+- [x] Preview file in app
 - [x] Local data encryption
 - [x] Dark mode support
 
