@@ -184,7 +184,23 @@ export class DriveComponent  implements OnInit {
       case data === 'delete': {
         // display loader
         this._loader.setStatus(true);
-        await this._storage.delete(item.name);
+        // display confirm
+        const ionAlert = await this._alertCtrl.create({
+          header: 'Delete',
+          message: `Are you sure you want to delete ${item.name}?`,
+        });
+        await ionAlert.present();
+        const { role } = await ionAlert.onDidDismiss();
+        if (role !== 'ok') {
+          // hide loader
+          this._loader.setStatus(false);
+          return;
+        }
+        if (item.isFolder) {
+          await this._storage.deleteFolder(item.name);
+        } else {
+          await this._storage.delete(item.name);
+        }
         //  display toast
         const ionToast = await this._toastCtrl.create({
           message: `🎉 Delete successfully`,
