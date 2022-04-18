@@ -10,8 +10,8 @@
 
 ## 🚀 Features
 - [x] Create storage buckets to the Storj network
-- [x] Create folders to the Storj network
-- [ ] Delete folders to the Storj network
+- [x] Create folders
+- [x] Delete folders
 - [x] Upload files to the Storj network from your computer
 - [x] Download files from the Storj network to your computer
 - [x] Delete files from the Storj network
