@@ -47,3 +47,10 @@ ion-popover, .preview-modal {
   }
   
 }
+
+
+.dark {
+  .alert-wrapper {
+    border: solid 1px var(--ion-border-color);
+  }
+}
