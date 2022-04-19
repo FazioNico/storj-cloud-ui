@@ -20,4 +20,5 @@ export interface BucketExplorerServiceInterface {
   delete(key: string, bucket?: string | undefined): Promise<void>;
   deleteFolder(key: string): Promise<void>;
   getUrl(key: string, bucket?: string | undefined): Promise<string>;
+  // rename(fromKey: string, toKey: string): Promise<void>;
 }
