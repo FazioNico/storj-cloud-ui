@@ -12,9 +12,12 @@
 - [x] Create storage bucket to the Storj network
 - [x] Create folder
 - [x] Delete folder
+- [x] Rename folder
+- [x] List files from Bucket 
 - [x] Upload files to the Storj network from your computer
 - [x] Download file
-- [x] Delete files from the Storj network
+- [x] Delete file
+- [x] Rename file
 - [x] Share file with public url link
 - [x] Preview file in app
 - [x] Local data encryption
