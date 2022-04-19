@@ -130,7 +130,12 @@ export class S3Provider implements STORJStorageProviderInterface {
       Key: toKey,
       CopySource: `${Bucket}/${fromKey}`
     };
-    await this._s3.copyObject(params).promise();
+    try {
+      await this._s3.copyObject(params).promise();  
+    } catch (error: any) {
+      console.log('[ERROR] Run fallback moveFile.', error);
+      await this._copyObjectFallback(Bucket, fromKey, toKey);
+    }
     // delete original file
     await this._s3.deleteObject({ Bucket, Key: fromKey }).promise();
   }
@@ -182,6 +187,21 @@ export class S3Provider implements STORJStorageProviderInterface {
       return folder.slice(0, folder.length - 1).join('/') + '/.file_placeholder';
     }
     return 'root';
+  }
+
+  private async _copyObjectFallback(Bucket: string, Key: string, toKey: string) {
+    // first download file
+    const res = await this._s3.getObject({ Bucket, Key }).promise();
+    // then upload to new location
+    const params = {
+      Bucket,
+      Key: toKey,
+      Body: res.Body,
+      ContentType: res.ContentType,
+    };
+    await this._s3.putObject(params).promise();
+    // finally delete original file
+    await this._s3.deleteObject({ Bucket, Key }).promise();
   }
 
 }
