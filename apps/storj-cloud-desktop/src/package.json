@@ -1,6 +1,6 @@
 {
   "name": "storj-cloud-ui",
-  "version": "0.0.0-beta.1",
+  "version": "0.0.0-beta.2",
   "license": "MIT",
   "main": "./main.js",
   "description":" STORJ Cloud UI allow you to manage files from Storj Network",
