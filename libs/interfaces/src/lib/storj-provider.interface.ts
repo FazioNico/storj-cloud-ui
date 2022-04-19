@@ -17,4 +17,5 @@ export interface STORJStorageProviderInterface {
   deleteFile: (bucket: string, key: string) => Promise<void>;
   createFolder: (bucket: string, key: string) => Promise<MediaFileInterface>;
   getPublicUrl: (bucket: string, key: string) => Promise<string>;
+  moveFile(Bucket: string, fromKey: string, toKey: string): Promise<void>;
 }
