@@ -5,6 +5,12 @@
       Open
     </ion-label>
   </ion-item>
+  <ion-item [hidden]="isFolder" (click)="popCtrl.dismiss('preview')">
+    <ion-icon name="eye-outline" slot="start"></ion-icon>
+    <ion-label>
+      Preview
+    </ion-label>
+  </ion-item>
   <ion-item [hidden]="isFolder" (click)="popCtrl.dismiss('share')">
     <ion-icon name="link-outline" slot="start"></ion-icon>
     <ion-label>
