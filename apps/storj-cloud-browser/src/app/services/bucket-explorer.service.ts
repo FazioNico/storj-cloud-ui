@@ -232,6 +232,40 @@ export class BucketExplorerService implements BucketExplorerServiceInterface {
     this._items$.next(data);
   }
 
+  async rename(keyToChange: string, newName: string, Bucket?: string): Promise<void> {
+    // check if is folder
+    const isFolder = this._items$.value.find(item => item.name === keyToChange)?.isFolder;
+    // get bucket name
+    if (!Bucket) {
+      Bucket = this._bucketName$.value;
+    }
+    // check all recursive file in folder
+    if (isFolder) {
+      const filesToRename = this._items$.value.filter(item => item.parent === keyToChange && !item.isFolder);
+      await Promise.all(filesToRename.map(file => {
+        // update file name
+        const arrayName = file.name.split('/');
+        // replace prev latest item with new name
+        arrayName[arrayName.length - 2] = newName;
+        const Key = arrayName.join('/');
+        return this._provider.moveFile(Bucket as string, file.name, Key);
+      }));
+      // update folder name and update items
+      const key = keyToChange.split('/');
+      key[key.length - 2] = newName;
+      await this._provider.moveFile(Bucket, keyToChange, key.join('/'))
+    } else {
+      const arrayName = keyToChange.split('/');
+      // replace latest item with new name
+      arrayName[arrayName.length - 1] = newName;
+      const Key = arrayName.join('/');
+      // run rename task
+      await this._provider.moveFile(Bucket, keyToChange, Key);
+    }
+    // update items
+    await this.getFrom(Bucket);
+  }
+
   async getUrl(Key: string, Bucket?: string ){
     if (!Bucket) {
       Bucket = this._bucketName$.value;
