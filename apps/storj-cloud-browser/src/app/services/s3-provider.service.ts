@@ -123,6 +123,18 @@ export class S3Provider implements STORJStorageProviderInterface {
       .then(data => new MediaFile(data));
   }
 
+  async moveFile(Bucket: string, fromKey: string, toKey: string) {
+    // move s3 stored file from bucket to other bucket
+    const params = {
+      Bucket,
+      Key: toKey,
+      CopySource: `${Bucket}/${fromKey}`
+    };
+    await this._s3.copyObject(params).promise();
+    // delete original file
+    await this._s3.deleteObject({ Bucket, Key: fromKey }).promise();
+  }
+
   async getPublicUrl(Bucket: string, Key: string): Promise<string> {
     return this._s3.getSignedUrl("getObject", {
       Bucket,
