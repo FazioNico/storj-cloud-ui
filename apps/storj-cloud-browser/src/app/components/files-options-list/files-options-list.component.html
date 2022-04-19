@@ -17,6 +17,12 @@
       Download
     </ion-label>
   </ion-item>
+  <ion-item (click)="popCtrl.dismiss('rename')">
+    <ion-icon name="trash-outline" slot="start"></ion-icon>
+    <ion-label>
+      Rename
+    </ion-label>
+  </ion-item>
   <ion-item lines="none" (click)="popCtrl.dismiss('delete')">
     <ion-icon name="trash-outline" slot="start"></ion-icon>
     <ion-label>

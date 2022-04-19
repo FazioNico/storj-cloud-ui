@@ -75,7 +75,7 @@
                   *ngIf="breadcrumbs$|async as breadcrumbs"
                   [maxItems]="maxBreadcrumbs" 
                   (ionCollapsedClick)="maxBreadcrumbs = undefined">
-                <ion-breadcrumb (click)="navToFolderName(breadcrumbs, b)" *ngFor="let b of breadcrumbs;let i = index">
+                <ion-breadcrumb class="clickable" (click)="navToFolderName(breadcrumbs, b)" *ngFor="let b of breadcrumbs;let i = index">
                   <span>{{b}}</span>
                 </ion-breadcrumb>
               </ion-breadcrumbs>

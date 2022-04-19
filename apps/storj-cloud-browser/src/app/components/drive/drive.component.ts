@@ -171,6 +171,11 @@ export class DriveComponent  implements OnInit {
         this.actions(data, item);
         break;
       }
+      case type === 'rename': {
+        const item = payload as MediaFileInterface;
+        await this.rename(item)
+        break;
+      }
       default:
         break;
     } 
@@ -471,4 +476,50 @@ export class DriveComponent  implements OnInit {
     return { data, role };
   }
 
+  async rename(item: MediaFileInterface) {
+    const ionAlert = await this._alertCtrl.create({
+      header: 'Rename',
+      message: `Enter new name for ${item.name.split('/').pop()}`,
+      inputs: [
+        {
+          name: 'name',
+          type: 'text',
+          placeholder: 'New name'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Rename',
+          role: 'ok',
+        }
+      ]
+    });
+    await ionAlert.present();
+    const { role, data } = await ionAlert.onDidDismiss();
+    if (role !== 'ok') {
+      return;
+    }
+    const newName = data.values.name;
+    if (!newName) {
+      return;
+    }
+    // display loader
+    this._loader.setStatus(true);
+    await this._storage.rename(item.name, newName);
+    //  display toast
+    const ionToast = await this._toastCtrl.create({
+      message: `🎉 Rename successfully`,
+      duration: 2000,
+      position: 'bottom',
+      color: 'success',
+      buttons: ['ok']
+    });
+    await ionToast.present();
+    // hide loader
+    this._loader.setStatus(false);
+  }
 }
